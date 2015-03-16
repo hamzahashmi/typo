@@ -23,6 +23,37 @@ class Admin::ContentController < Admin::BaseController
     end
   end
 
+
+
+  def merge
+	if current_user.login != 'admin'
+		flash[:error] = 'You are not allowed to merge'
+		redirect_to :action => 'index'
+	end
+	id = params[:id]
+	puts 12
+	puts params
+	puts params[:merge_with]
+	puts 21
+	
+	if !params[:merge_with].to_s.blank?
+		if Article.exists?(params[:merge_with]) # article not found 
+			article = Article.find(id) 
+			merge_with_article = Article.find(params[:merge_with]) 
+			body = article[:body] + "\n" + merge_with_article[:body] 
+			Comment.update_all({:article_id => id},{:article_id => merge_with_article.id}) 
+			Article.update(id,:body => body) 
+			Article.destroy(params[:merge_with]) 
+			return
+		else 
+			flash[:error] = _('Article ID is not found.') 
+		end
+	else
+			flash[:error] = _('Article ID is empty.')  
+	end
+	redirect_to :action => 'index'
+  end
+
   def new
     new_or_edit
   end
@@ -240,4 +271,6 @@ class Admin::ContentController < Admin::BaseController
   def setup_resources
     @resources = Resource.by_created_at
   end
+
+
 end

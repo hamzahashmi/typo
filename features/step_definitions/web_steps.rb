@@ -41,6 +41,15 @@ Given /^the blog is set up$/ do
                 :profile_id => 1,
                 :name => 'admin',
                 :state => 'active'})
+
+
+
+  User.create!({:login => 'pub',
+                :password => 'aaaaaaaa',
+                :email => 'pub@snow.com',
+                :profile_id => 2,
+                :name => 'pub',
+                :state => 'active'})
 end
 
 And /^I am logged into the admin panel$/ do
@@ -54,6 +63,25 @@ And /^I am logged into the admin panel$/ do
     assert page.has_content?('Login successful')
   end
 end
+
+
+And /^I am logged into the pub panel$/ do
+
+
+  visit '/accounts/login'
+  fill_in 'user_login', :with => 'pub'
+  fill_in 'user_password', :with => 'aaaaaaaa'
+  click_button 'Login'
+  if page.respond_to? :should
+    page.should have_content('Login successful')
+  else
+    assert page.has_content?('Login successful')
+  end
+end
+
+
+
+
 
 # Single-line step scoper
 When /^(.*) within (.*[^:])$/ do |step, parent|

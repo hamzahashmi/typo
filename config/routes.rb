@@ -7,10 +7,14 @@ Rails.application.routes.draw do
     end
   end
 
+
+  match '/admin/content/merge/:id', :to => 'admin/content#merge'
+
   # for CK Editor
   match 'fm/filemanager(/:action(/:id))', :to => 'Fm::Filemanager', :format => false
   match 'ckeditor/command', :to => 'ckeditor#command', :format => false
   match 'ckeditor/upload', :to => 'ckeditor#upload', :format => false
+
 
   # TODO: use only in archive sidebar. See how made other system
   match ':year/:month', :to => 'articles#index', :year => /\d{4}/, :month => /\d{1,2}/, :as => 'articles_by_month', :format => false
@@ -19,6 +23,7 @@ Rails.application.routes.draw do
   match ':year/page/:page', :to => 'articles#index', :year => /\d{4}/, :as => 'articles_by_year_page', :format => false
 
   match 'admin', :to  => 'admin/dashboard#index', :format => false, :as => :admin_dashboard
+  match 'pub', :to  => 'pub/dashboard#index', :format => false, :as => :pub_dashboard
 
   match 'articles.:format', :to => 'articles#index', :constraints => {:format => 'rss'}, :as => 'rss'
   match 'articles.:format', :to => 'articles#index', :constraints => {:format => 'atom'}, :as => 'atom'

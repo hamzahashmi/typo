@@ -44,7 +44,6 @@ class Admin::ContentController < Admin::BaseController
 			Comment.update_all({:article_id => id},{:article_id => merge_with_article.id}) 
 			Article.update(id,:body => body) 
 			Article.destroy(params[:merge_with]) 
-			return
 		else 
 			flash[:error] = _('Article ID is not found.') 
 		end

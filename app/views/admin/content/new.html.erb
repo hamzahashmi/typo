@@ -7,7 +7,7 @@
 <% if @article && current_user.login == "admin" %>
     <%= form_tag(controller:"/admin/content", action:"merge", method:"post",:name =>"merge_with" ) %>
     <%= label_tag("Merge Articles") %>
-    <%= text_field_tag("merge_with",:id =>@article.id ) %>
+    <%= text_field_tag("merge_with") %>
     <%= submit_tag("merge") %>
 <% end %>
 
